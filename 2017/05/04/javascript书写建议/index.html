@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  
+
+  
+  <title>javascript 书写建议 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="1.变量缓存 //说明：例如Dom的缓存，document.getElementById(‘ID’) 等方法查找dom是从 document开始往body下面查找 dom 节点 , 变量缓存了就不用再从 document 开始往下找 。 好 :1234567var $box =  $(&apos;.box&apos;);var $box_item = $box.find(&apos;.box-item&apos;);var box =">
+<meta name="keywords" content="javascript,性能优化">
+<meta property="og:type" content="article">
+<meta property="og:title" content="javascript 书写建议">
+<meta property="og:url" content="http://yoursite.com/2017/05/04/javascript书写建议/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="1.变量缓存 //说明：例如Dom的缓存，document.getElementById(‘ID’) 等方法查找dom是从 document开始往body下面查找 dom 节点 , 变量缓存了就不用再从 document 开始往下找 。 好 :1234567var $box =  $(&apos;.box&apos;);var $box_item = $box.find(&apos;.box-item&apos;);var box =">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2017-05-17T09:24:49.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="javascript 书写建议">
+<meta name="twitter:description" content="1.变量缓存 //说明：例如Dom的缓存，document.getElementById(‘ID’) 等方法查找dom是从 document开始往body下面查找 dom 节点 , 变量缓存了就不用再从 document 开始往下找 。 好 :1234567var $box =  $(&apos;.box&apos;);var $box_item = $box.find(&apos;.box-item&apos;);var box =">
+  
+    <link rel="alternate" href="/blog/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/blog/css/style.css">
+</head>
+</html>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/blog/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/blog/">Home</a>
+        
+          <a class="main-nav-link" href="/blog/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/blog/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-javascript书写建议" class="article article-type-post" itemscope="" itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/blog/2017/05/04/javascript书写建议/" class="article-date">
+  <time datetime="2017-05-04T07:36:02.000Z" itemprop="datePublished">2017-05-04</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      javascript 书写建议
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>1.变量缓存</p>
+<p>//说明：例如Dom的缓存，document.getElementById(‘ID’) 等方法查找dom是从 document开始往body下面查找 dom 节点 , 变量缓存了就不用再从 document 开始往下找 。</p>
+<p>好 :<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> $box =  $(<span class="string">'.box'</span>);</span><br><span class="line"><span class="keyword">var</span> $box_item = $box.find(<span class="string">'.box-item'</span>);</span><br><span class="line"><span class="keyword">var</span> box = <span class="built_in">document</span>.querySelector(<span class="string">'.box'</span>);</span><br><span class="line"><span class="keyword">var</span> box_item = box.querySelector(<span class="string">'.box-item'</span>);</span><br><span class="line">$box.addClass(<span class="string">'red'</span>);</span><br><span class="line">$box.attr(<span class="string">'data-id'</span> , <span class="number">1</span>);</span><br><span class="line">$box_item.hide();</span><br></pre></td></tr></table></figure></p>
+<p>坏 :<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$(<span class="string">'.box'</span>).addClass(<span class="string">'red'</span>);</span><br><span class="line">$(<span class="string">'.box'</span>).attr(<span class="string">'data-id'</span> , <span class="number">1</span>);</span><br><span class="line">$(<span class="string">'.box-item'</span>).hide();</span><br></pre></td></tr></table></figure></p>
+<a id="more"></a>
+<p>2.事件监听</p>
+<p>//说明 ： 使用事件代理可提高代码的可读性。不管dom什么时候被添加到页面上 ， 都可以监听成功 ，注意的是 ，此事件只可绑定一次 ，绑定多次就会触发多次回调函数 ，重新绑定并不会覆盖上一次的绑定。这主要得益于浏览器的事件冒泡机制 ，以jquery封装好的事件为例。</p>
+<p>好 :<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Test</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.init();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Test.prototype.init = <span class="function"><span class="keyword">function</span> <span class="title">init</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//事件绑定 dom元素还没添加到页面上也能监听得到 ，因为我这里代理到 $(document) 身上。</span></span><br><span class="line">    <span class="keyword">this</span>.bindEvent();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">this</span>.render();</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">Test.prototype.render = <span class="function"><span class="keyword">function</span> <span class="title">render</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">var</span> $box = $(<span class="string">'.box'</span>);</span><br><span class="line">    $box.html(<span class="string">'&lt;div id="btn"&gt;btn&lt;/div&gt;'</span>);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">Test.prototype.bindEvent = <span class="function"><span class="keyword">function</span> <span class="title">bindEvent</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">var</span> $doc = $(<span class="built_in">document</span>);</span><br><span class="line"></span><br><span class="line">    $doc.on(<span class="string">'click'</span>, <span class="string">'#btn'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">e</span>)</span>&#123;</span><br><span class="line">        alert(<span class="string">'click btn'</span>);</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<p>坏 :<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Test</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.init();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Test.prototype.init = <span class="function"><span class="keyword">function</span> <span class="title">init</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.render();</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">Test.prototype.render = <span class="function"><span class="keyword">function</span> <span class="title">render</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">var</span> $box = $(<span class="string">'.box'</span>);</span><br><span class="line">    $box.html(<span class="string">'&lt;div id="btn"&gt;btn&lt;/div&gt;'</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//绑定事件</span></span><br><span class="line">    $box.find(<span class="string">'#btn'</span>).on(<span class="string">'click'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">e</span>)</span>&#123;</span><br><span class="line">        alert(<span class="string">'click btn'</span>);</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<p>3.函数声明与匿名函数</p>
+<p>说明 ：为了调试清晰 ， 选择函数声明 ， 丢弃匿名函数。es6 的箭头函数是匿名函数 ，不可以是声明函数。</p>
+<p>好 :<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">log</span>(<span class="params">callback</span>)</span>&#123;</span><br><span class="line">    <span class="comment">//在此位置断点调试的时候可以清楚的看到 callback 是 hello 函数</span></span><br><span class="line">    <span class="built_in">console</span>.log(callback &amp;&amp; callback());</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">hello</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">'hello'</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">log(hello);</span><br><span class="line"></span><br><span class="line"><span class="comment">//或者</span></span><br><span class="line"></span><br><span class="line">log(<span class="function"><span class="keyword">function</span> <span class="title">hello</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">'hello'</span>;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></p>
+<p>坏 :<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">log</span>(<span class="params">callback</span>)</span>&#123;</span><br><span class="line">    <span class="comment">//在此位置断点调试的时候可以的看到 callback 是 匿名函数 ，多处调用根本不知道是哪个函数被传递进来</span></span><br><span class="line">    <span class="built_in">console</span>.log(callback &amp;&amp; callback());</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">log(<span class="function"><span class="keyword">function</span> (<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">'hello'</span>;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></p>
+<p>4.算术操作符的问题</p>
+<p>说明 ： 代码写少了 ， 看起来并不直观</p>
+<p>好 :<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> i = <span class="number">0</span>;</span><br><span class="line">i = i + <span class="number">1</span>;</span><br><span class="line">i = i - <span class="number">1</span>;</span><br></pre></td></tr></table></figure></p>
+<p>坏 :<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> i = <span class="number">0</span>;</span><br><span class="line">i++;</span><br><span class="line">i--;</span><br></pre></td></tr></table></figure></p>
+<p>5.嵌套三元表达式的问题</p>
+<p>说明 ： 嵌套三元表达式让代码难以看懂 ， 难以理解 。</p>
+<p>好 :<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// "true"  =&gt; true</span></span><br><span class="line"><span class="comment">// "false" =&gt; false</span></span><br><span class="line"><span class="comment">// "null"  =&gt; null</span></span><br><span class="line"><span class="comment">// "42"    =&gt; 42</span></span><br><span class="line"><span class="comment">// "42.5"  =&gt; 42.5</span></span><br><span class="line"><span class="comment">// "08"    =&gt; "08"</span></span><br><span class="line"><span class="comment">// JSON    =&gt; parse if valid</span></span><br><span class="line"><span class="comment">// String  =&gt; self</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">deserializeValue</span>(<span class="params">value</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="keyword">var</span> result;</span><br><span class="line">        <span class="keyword">if</span> (value) &#123;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (value == <span class="string">"false"</span>) &#123;</span><br><span class="line">                result = <span class="literal">false</span>;</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (value == <span class="string">"null"</span>) &#123;</span><br><span class="line">                result = <span class="literal">null</span>;</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (+value + <span class="string">""</span> == value) &#123;</span><br><span class="line">                result = +value;</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="regexp">/^[\[\&#123;]/</span>.test(value)) &#123;</span><br><span class="line">                result = $.parseJSON(value);</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                result = value;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">return</span> value == <span class="string">"true"</span> || result;</span><br><span class="line"></span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> value;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">catch</span> (e) &#123;</span><br><span class="line">        <span class="keyword">return</span> value</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>坏 :<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// "true"  =&gt; true</span></span><br><span class="line"><span class="comment">// "false" =&gt; false</span></span><br><span class="line"><span class="comment">// "null"  =&gt; null</span></span><br><span class="line"><span class="comment">// "42"    =&gt; 42</span></span><br><span class="line"><span class="comment">// "42.5"  =&gt; 42.5</span></span><br><span class="line"><span class="comment">// "08"    =&gt; "08"</span></span><br><span class="line"><span class="comment">// JSON    =&gt; parse if valid</span></span><br><span class="line"><span class="comment">// String  =&gt; self</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">deserializeValue</span>(<span class="params">value</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> value ?</span><br><span class="line">        value == <span class="string">"true"</span> ||</span><br><span class="line">        ( value == <span class="string">"false"</span> ? <span class="literal">false</span> :</span><br><span class="line">            value == <span class="string">"null"</span> ? <span class="literal">null</span> :</span><br><span class="line">                +value + <span class="string">""</span> == value ? +value :</span><br><span class="line">                    /^[\[\&#123;]/.test(value) ? $.parseJSON(value) :</span><br><span class="line">                        value )</span><br><span class="line">            : value</span><br><span class="line">    &#125; <span class="keyword">catch</span> (e) &#123;</span><br><span class="line">        <span class="keyword">return</span> value</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<ol start="6">
+<li>语句要加上双括号</li>
+</ol>
+<p>好 :<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'true'</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>坏 :<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (<span class="literal">true</span>) <span class="built_in">console</span>.log(<span class="string">'true'</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (<span class="literal">true</span>)</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'true'</span>);</span><br></pre></td></tr></table></figure></p>
+<p>7.尽量使用严格等于 少使用宽松等于</p>
+<p>说明 ： 宽松等于的转换规则复杂且难以记忆</p>
+<p>好 :<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> num = <span class="number">1</span>;</span><br><span class="line"><span class="built_in">console</span>.log(num === <span class="string">'1'</span>); <span class="comment">//false</span></span><br><span class="line"><span class="built_in">console</span>.log(<span class="literal">null</span> === <span class="literal">undefined</span>); <span class="comment">//false</span></span><br></pre></td></tr></table></figure></p>
+<p>坏 :<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> num = <span class="number">1</span>;</span><br><span class="line"><span class="built_in">console</span>.log(num == <span class="string">'1'</span>); <span class="comment">//true</span></span><br><span class="line"><span class="built_in">console</span>.log(<span class="literal">null</span> == <span class="literal">undefined</span>); <span class="comment">//true</span></span><br></pre></td></tr></table></figure></p>
+<p>8.不要使用 with 语句 和 eval 函数。</p>
+<p>说明 ： 它们会欺骗词法作用域导致性能下降 ， with 语句还能不知不觉把变量声明到全局作用局下。</p>
+<p>坏 :<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params">str, a</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">eval</span>( str ); <span class="comment">// 欺骗!</span></span><br><span class="line">    <span class="built_in">console</span>.log( a, b );</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> b = <span class="number">2</span>;</span><br><span class="line">foo( <span class="string">"var b = 3;"</span>, <span class="number">1</span> ); <span class="comment">// 1, 3</span></span><br></pre></td></tr></table></figure></p>
+<p>坏 :<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params">obj</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">with</span> (obj) &#123;</span><br><span class="line">      a = <span class="number">2</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> o1 = &#123;</span><br><span class="line">    a: <span class="number">3</span></span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">var</span> o2 = &#123;</span><br><span class="line">    b: <span class="number">3</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">foo( o1 );</span><br><span class="line"><span class="built_in">console</span>.log( o1.a ); <span class="comment">// 2</span></span><br><span class="line"></span><br><span class="line">foo( o2 );</span><br><span class="line"><span class="built_in">console</span>.log( o2.a ); <span class="comment">// undefined</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log( a ); <span class="comment">// 2——不好，a被泄漏到全局作用域上了!</span></span><br></pre></td></tr></table></figure></p>
+<p>9.开启严格模式编写javascript代码</p>
+<p>说明 ：</p>
+<p>1 消除Javascript语法的一些不合理、不严谨之处，减少一些怪异行为;</p>
+<p>2 消除代码运行的一些不安全之处，保证代码运行的安全；</p>
+<p>3 提高编译器效率，增加运行速度；</p>
+<p>4 为未来新版本的Javascript做好铺垫。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">"use strict"</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">//在某些浏览器会抛出异常</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> obj = &#123;</span><br><span class="line">   name : <span class="string">'name1'</span>,</span><br><span class="line">   name : <span class="string">'name2'</span>,</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(obj.name);</span><br></pre></td></tr></table></figure>
+<p>在某些浏览器会报错<br>10.注意构造器函数和new运算符</p>
+<p>说明 ： 构造器函数是和new运算符一起使用的函数 ， new运算符基于该函数的原型创建一个新对象，并且把该对象绑定到this上。如果你忽略使用new ， 新的对象不会被创建 ，并且this会被绑定到全局对象上 。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Test</span>(<span class="params">name</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.name = name || <span class="string">'my name'</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> test = Test(<span class="string">'chen'</span>);</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(test); <span class="comment">//undefined</span></span><br><span class="line"><span class="built_in">console</span>.log(name); <span class="comment">// chen</span></span><br></pre></td></tr></table></figure>
+<p>注意<br>11.动画绘制16.6ms 性能优化</p>
+<p>说明 : 性能优化</p>
+<p>好 :<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">window</span>.requestAnimFrame = (<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">window</span>.requestAnimationFrame || <span class="built_in">window</span>.webkitRequestAnimationFrame || <span class="function"><span class="keyword">function</span> (<span class="params"> callback </span>) </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="built_in">window</span>.setTimeout(callback, <span class="number">1000</span> / <span class="number">60</span>);</span><br><span class="line">        &#125;;</span><br><span class="line">&#125;)();</span><br><span class="line"></span><br><span class="line"><span class="built_in">window</span>.cancelAnimFrame = (<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">window</span>.cancelAnimationFrame || <span class="built_in">window</span>.webkitCancelAnimationFrame || clearTimeout;</span><br><span class="line">&#125;)();</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Handler</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="comment">//...</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">document</span>.addEventListener(<span class="string">'touchmove'</span>,<span class="function"><span class="keyword">function</span> (<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">var</span> timer = <span class="built_in">window</span>.requestAnimFrame(Handler);</span><br><span class="line">&#125;,<span class="literal">false</span>);</span><br><span class="line"></span><br><span class="line"><span class="built_in">document</span>.addEventListener(<span class="string">'scroll'</span>,<span class="function"><span class="keyword">function</span> (<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">var</span> timer = <span class="built_in">window</span>.requestAnimFrame(Handler);</span><br><span class="line">&#125;,<span class="literal">false</span>);</span><br></pre></td></tr></table></figure></p>
+<p>坏 :<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Handler</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="comment">//...</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">document</span>.addEventListener(<span class="string">'touchmove'</span>,Handler ,<span class="literal">false</span>);</span><br><span class="line"></span><br><span class="line"><span class="built_in">document</span>.addEventListener(<span class="string">'scroll'</span>, Handler ,<span class="literal">false</span>);</span><br></pre></td></tr></table></figure></p>
+<p>12.不兼容ie的情况下 ， 使用 css 3 动画 ，丢弃定位</p>
+<p>说明 : 性能优化 ， 使用 css 3 动画浏览器不会重新绘制 dom 树 ， 使用定位浏览器会重新绘制 dom 树。</p>
+<p>好 :<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> translateX = <span class="function"><span class="keyword">function</span> <span class="title">translateX</span>(<span class="params">fig, x</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> time = fig === <span class="number">1</span> ? <span class="number">500</span> : <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">return</span> &#123;</span><br><span class="line">        <span class="string">'-webkit-transition'</span>: <span class="string">'-webkit-transform '</span> + time + <span class="string">'ms ease'</span>,</span><br><span class="line">        <span class="string">'transition'</span>: <span class="string">'transform '</span> + time + <span class="string">'ms ease'</span>,</span><br><span class="line">        <span class="string">'-webkit-transform'</span>: <span class="string">'translate3d('</span> + x + <span class="string">'px, 0 ,0)'</span>,</span><br><span class="line">        <span class="string">'transform'</span>: <span class="string">'translate3d('</span> + x + <span class="string">'px, 0, 0)'</span></span><br><span class="line">    &#125;;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<p>坏 :<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> translateX = <span class="function"><span class="keyword">function</span> <span class="title">translateX</span>(<span class="params">fig, x</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> time = fig === <span class="number">1</span> ? <span class="number">500</span> : <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">return</span> &#123;</span><br><span class="line">        <span class="string">'top'</span> : x + <span class="string">'px'</span></span><br><span class="line">    &#125;;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2017/05/04/javascript书写建议/" data-id="cjnpqr60a0001yqt9zw00keus" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/blog/tags/javascript/">javascript</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/blog/tags/性能优化/">性能优化</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/blog/2017/05/16/javascript学习资源/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          javascript学习资源
+        
+      </div>
+    </a>
+  
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/学习/">-学习</a></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/javascript/">javascript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/博客/">博客</a></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/学习资料/">学习资料</a></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/性能优化/">性能优化</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/blog/tags/学习/" style="font-size: 10px;">-学习</a> <a href="/blog/tags/javascript/" style="font-size: 20px;">javascript</a> <a href="/blog/tags/博客/" style="font-size: 10px;">博客</a> <a href="/blog/tags/学习资料/" style="font-size: 10px;">学习资料</a> <a href="/blog/tags/性能优化/" style="font-size: 10px;">性能优化</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/blog/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/blog/archives/2017/06/">June 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/blog/archives/2017/05/">May 2017</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/blog/2018/10/26/hello-world/">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/blog/2017/06/28/koa2-mongoose-vue2搭建一个完整的个人博客/">koa2+mongoose+vue2搭建一个完整的个人博客</a>
+          </li>
+        
+          <li>
+            <a href="/blog/2017/05/27/vue的一些要注意的事/">vue的一些要注意的事</a>
+          </li>
+        
+          <li>
+            <a href="/blog/2017/05/16/javascript学习资源/">javascript学习资源</a>
+          </li>
+        
+          <li>
+            <a href="/blog/2017/05/04/javascript书写建议/">javascript 书写建议</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2018 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/blog/" class="mobile-nav-link">Home</a>
+  
+    <a href="/blog/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/blog/fancybox/jquery.fancybox.css">
+  <script src="/blog/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/blog/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>
