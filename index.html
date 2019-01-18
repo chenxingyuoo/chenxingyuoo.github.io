@@ -1,402 +1,302 @@
 <!DOCTYPE html>
-<html>
-<head><meta name="generator" content="Hexo 3.8.0">
-  <meta charset="utf-8">
-  
+<html lang="en" style="font-size: 79.5424px;">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
-  
-  <title>Hexo</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Hexo">
-<meta property="og:url" content="http://yoursite.com/index.html">
-<meta property="og:site_name" content="Hexo">
-<meta property="og:locale" content="default">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Hexo">
-  
-    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
-  
-  
-    <link rel="icon" href="/favicon.png">
-  
-  
-    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
-  
-  <link rel="stylesheet" href="/css/style.css">
+  <meta http-equiv="X-UA-Compatible" content="edge">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <title></title>
+  <link rel="stylesheet" href="./css/game.css">
+  <link rel="stylesheet" href="//at.alicdn.com/t/font_1018780_3sm10qths5a.css">
+  <script src="//at.alicdn.com/t/font_1018780_3sm10qths5a.js"></script>
+  <script type="text/javascript" src="./js/bodymovin.js"></script>
+  <script type="text/javascript" src="./js/jweixin-1.3.2.js"></script>
+  <script typet="text/javascript" src="./js/jquery-3.3.1.min.js"></script>
+  <script type="text/javascript" src="./js/jquery.cookie.js"></script>
+  <script type="text/javascript" src="./js/JicemoonMobileTouch.js"></script>
+  <script type="text/javascript" src="./js/HardestGame.js"></script>
+  <script type="text/javascript" src="./js/index.js"></script>
 </head>
-</html>
 <body>
-  <div id="container">
-    <div id="wrap">
-      <header id="header">
-  <div id="banner"></div>
-  <div id="header-outer" class="outer">
-    <div id="header-title" class="inner">
-      <h1 id="logo-wrap">
-        <a href="/" id="logo">Hexo</a>
-      </h1>
-      
+<audio id="back_music" preload="" src="./audio/bg_audio.mp3" loop="true"></audio>
+<audio id="split_audio" preload="" src="./audio/split_audio.mp3"></audio>
+<audio id="collision_audio" preload="" src="./audio/collision_audio.mp3"></audio>
+<audio id="Countdown_10s_audio" preload="" src="./audio/Countdown_10s_audio.mp3"></audio>
+<audio id="gameFail_audio" preload="" src="./audio/gameFail_audio.mp3"></audio>
+<audio id="gameSuccess_audio" preload="" src="./audio/gameSuccess_audio.mp3"></audio>
+<audio id="insert_audio" preload="" src="./audio/insert_audio.mp3"></audio>
+<audio id="success_audio" preload="" src="./audio/success_audio.mp3"></audio>
+
+<div class="start-box" id="start-box">
+  <div class="circle-center"></div>
+
+  <div class="mask-tips mask-tips1">
+    <p>全部口红</p>
+    <p>插入水果</p>
+    <p>即挑战成功</p>
+  </div>
+
+  <div class="mask-tips mask-tips2">
+    <p>挑战三关获得奖品</p>
+  </div>
+
+  <div class="mask-tips mask-tips3">
+    <p>若碰到</p>
+    <p>其他口红</p>
+    <p>即挑战失败</p>
+  </div>
+
+  <div class="action flex-column-center">
+    <div class="lipstick mb-20"></div>
+
+    <div class="tips mb-10"><span>500</span>金币赢大奖</div>
+
+    <div class="flex1-center">
+      <div class="btn-start" id="start-btn">
+        开始游戏
+      </div>
     </div>
-    <div id="header-inner" class="inner">
-      <nav id="main-nav">
-        <a id="main-nav-toggle" class="nav-icon"></a>
-        
-          <a class="main-nav-link" href="/">Home</a>
-        
-          <a class="main-nav-link" href="/archives">Archives</a>
-        
-      </nav>
-      <nav id="sub-nav">
-        
-          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
-        
-        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
-      </nav>
-      <div id="search-form-wrap">
-        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+
+    <!--<div class="try-btn" id="try-btn">
+      <span>试玩</span>
+    </div>
+
+    <div class="share-btn">
+      <i class="iconfont icon-fenxiang"></i>
+      <span class="">分享免费玩</span>
+    </div>-->
+  </div>
+</div>
+
+<div class="levelSwitchBox" id="levelSwitchBox" style="display: block;">
+  <!--<img id="levelSwitchBoxMain" class="levelSwitchBoxMain" src="./img/level_1_main.jpg">-->
+  <div id="levelSwitchBoxMain" class="levelSwitchBoxMain"
+       style="background-image: url('./img/level_1_mains.jpg');"></div>
+</div>
+
+<div class="PopupBox" id="gameOverBox" style="display: none">
+  <div class="flex-column-center">
+    <div class="game-fail mb-20"></div>
+    <div class="tips" id="not-tips">请再接再厉</div>
+    <div class="fail-tips" id="fail-tips">
+      <div class="level-tips mb-10">
+        通过
+        <span class="level-tips-num" id="level-tips-1">第一关</span>
+        <span class="level-tips-num" id="level-tips-2">第二关</span>
+      </div>
+      <div class="gold-tips flex-center">
+        获得
+        <svg class="icon svg-icon" aria-hidden="true">
+          <use xlink:href="#icon-jifenbi"></use>
+        </svg>
+        <span class="gold-num" id="reward-gold-num">0</span>
+        积分
       </div>
     </div>
   </div>
-</header>
-      <div class="outer">
-        <section id="main">
-  
-    <article id="post-hello-world" class="article article-type-post" itemscope="" itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/10/26/hello-world/" class="article-date">
-  <time datetime="2018-10-26T08:10:39.766Z" itemprop="datePublished">2018-10-26</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/10/26/hello-world/">Hello World</a>
-    </h1>
-  
 
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>
-
-      
+  <div class="foot-btns flex-column-center">
+    <div class="btn-again-start mb-10" id="game-restart-btn">
+      重新开始游戏
     </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/10/26/hello-world/" data-id="cjnpqyuv800001et9g3g0fg9q" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
 
-
-  
-    <article id="post-koa2-mongoose-vue2搭建一个完整的个人博客" class="article article-type-post" itemscope="" itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2017/06/28/koa2-mongoose-vue2搭建一个完整的个人博客/" class="article-date">
-  <time datetime="2017-06-27T18:39:05.000Z" itemprop="datePublished">2017-06-28</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/06/28/koa2-mongoose-vue2搭建一个完整的个人博客/">koa2+mongoose+vue2搭建一个完整的个人博客</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="SmallRecord"><a href="#SmallRecord" class="headerlink" title="SmallRecord"></a>SmallRecord</h1><blockquote>
-<p>O(∩_∩)O~</p>
-</blockquote>
-<p>前端 : vue2 + vue-router2 + vuex2 + axios + element-ui<br>后端 : koa2 + mongoose</p>
-<p><a href="https://github.com/chenxingyuoo/SmallRecord" target="_blank" rel="noopener">github</a> : <a href="https://github.com/chenxingyuoo/SmallRecord" target="_blank" rel="noopener">https://github.com/chenxingyuoo/SmallRecord</a></p>
-<p>如果觉得有用的话可以给个star😊</p>
-<h2 id="应用截图"><a href="#应用截图" class="headerlink" title="应用截图"></a>应用截图</h2><h3 id="登录注册页面"><a href="#登录注册页面" class="headerlink" title="登录注册页面"></a>登录注册页面</h3><p><img src="https://github.com/chenxingyuoo/markdown-image/blob/master/smallRecord/base.jpeg?raw=true" alt=""></p>
-        
-          <p class="article-more-link">
-            <a href="/2017/06/28/koa2-mongoose-vue2搭建一个完整的个人博客/#more">Read More</a>
-          </p>
-        
-      
+    <div class="btn-again-start mb-10" id="game-resurrection-btn">
+      关卡复活
     </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/06/28/koa2-mongoose-vue2搭建一个完整的个人博客/" data-id="cjnpqyuvs00071et9ud9syzcc" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/学习/">-学习</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/javascript/">javascript</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/博客/">博客</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-vue的一些要注意的事" class="article article-type-post" itemscope="" itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2017/05/27/vue的一些要注意的事/" class="article-date">
-  <time datetime="2017-05-27T10:55:23.000Z" itemprop="datePublished">2017-05-27</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/05/27/vue的一些要注意的事/">vue的一些要注意的事</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="组件-标签添加事件-click-”eventFn”-、-mouseover-”eventFn”等无效的情况-需要使用-click-native-”eventFn”"><a href="#组件-标签添加事件-click-”eventFn”-、-mouseover-”eventFn”等无效的情况-需要使用-click-native-”eventFn”" class="headerlink" title="组件 标签添加事件@click=”eventFn” 、@mouseover=”eventFn”等无效的情况 , 需要使用 @click.native=”eventFn”"></a>组件 标签添加事件@click=”eventFn” 、@mouseover=”eventFn”等无效的情况 , 需要使用 @click.native=”eventFn”</h2><blockquote>
-<p> <a href="http://www.cnblogs.com/xianhuiwang/p/6726688.html" target="_blank" rel="noopener">http://www.cnblogs.com/xianhuiwang/p/6726688.html</a></p>
-</blockquote>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/05/27/vue的一些要注意的事/" data-id="cjnpqyuvt00091et9gadkl88l" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-javascript学习资源" class="article article-type-post" itemscope="" itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2017/05/16/javascript学习资源/" class="article-date">
-  <time datetime="2017-05-16T08:35:09.000Z" itemprop="datePublished">2017-05-16</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/05/16/javascript学习资源/">javascript学习资源</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="学习网站合集"><a href="#学习网站合集" class="headerlink" title="学习网站合集"></a>学习网站合集</h1><h2 id="JavaScript-参考手册"><a href="#JavaScript-参考手册" class="headerlink" title="JavaScript 参考手册"></a>JavaScript 参考手册</h2><blockquote>
-<p><a href="http://www.w3school.com.cn/jsref/index.asp" target="_blank" rel="noopener">http://www.w3school.com.cn/jsref/index.asp</a><br>跳转链接 : <a href="http://www.w3school.com.cn/jsref/index.asp" target="_blank" rel="noopener">链接</a></p>
-</blockquote>
-<h2 id="MDN-Web技术为开发者文档"><a href="#MDN-Web技术为开发者文档" class="headerlink" title="MDN ( Web技术为开发者文档 )"></a>MDN ( Web技术为开发者文档 )</h2><blockquote>
-<p><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map" target="_blank" rel="noopener">https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map</a><br>跳转链接 : <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map" target="_blank" rel="noopener">链接</a></p>
-</blockquote>
-<h2 id="JavaScript-es6文档"><a href="#JavaScript-es6文档" class="headerlink" title="JavaScript es6文档"></a>JavaScript es6文档</h2><blockquote>
-<p><a href="http://es6.ruanyifeng.com/#docs/function" target="_blank" rel="noopener">http://es6.ruanyifeng.com/#docs/function</a><br>跳转链接 : <a href="http://es6.ruanyifeng.com/#docs/function" target="_blank" rel="noopener">链接</a></p>
-</blockquote>
-<h2 id="vue-2-x-前端MVVM框架"><a href="#vue-2-x-前端MVVM框架" class="headerlink" title="vue@2.x   (前端MVVM框架)"></a><a href="mailto:vue@2.x" target="_blank" rel="noopener">vue@2.x</a>   (前端MVVM框架)</h2><blockquote>
-<p><a href="https://vuefe.cn/v2/guide/" target="_blank" rel="noopener">https://vuefe.cn/v2/guide/</a><br>跳转链接 : <a href="https://vuefe.cn/v2/guide/" target="_blank" rel="noopener">链接</a></p>
-</blockquote>
-        
-          <p class="article-more-link">
-            <a href="/2017/05/16/javascript学习资源/#more">Read More</a>
-          </p>
-        
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/05/16/javascript学习资源/" data-id="cjnpqyuvr00061et976mew1qb" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/javascript/">javascript</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/学习资料/">学习资料</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-javascript书写建议" class="article article-type-post" itemscope="" itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2017/05/04/javascript书写建议/" class="article-date">
-  <time datetime="2017-05-04T07:36:02.000Z" itemprop="datePublished">2017-05-04</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/05/04/javascript书写建议/">javascript 书写建议</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>1.变量缓存</p>
-<p>//说明：例如Dom的缓存，document.getElementById(‘ID’) 等方法查找dom是从 document开始往body下面查找 dom 节点 , 变量缓存了就不用再从 document 开始往下找 。</p>
-<p>好 :<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> $box =  $(<span class="string">'.box'</span>);</span><br><span class="line"><span class="keyword">var</span> $box_item = $box.find(<span class="string">'.box-item'</span>);</span><br><span class="line"><span class="keyword">var</span> box = <span class="built_in">document</span>.querySelector(<span class="string">'.box'</span>);</span><br><span class="line"><span class="keyword">var</span> box_item = box.querySelector(<span class="string">'.box-item'</span>);</span><br><span class="line">$box.addClass(<span class="string">'red'</span>);</span><br><span class="line">$box.attr(<span class="string">'data-id'</span> , <span class="number">1</span>);</span><br><span class="line">$box_item.hide();</span><br></pre></td></tr></table></figure></p>
-<p>坏 :<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$(<span class="string">'.box'</span>).addClass(<span class="string">'red'</span>);</span><br><span class="line">$(<span class="string">'.box'</span>).attr(<span class="string">'data-id'</span> , <span class="number">1</span>);</span><br><span class="line">$(<span class="string">'.box-item'</span>).hide();</span><br></pre></td></tr></table></figure></p>
-        
-          <p class="article-more-link">
-            <a href="/2017/05/04/javascript书写建议/#more">Read More</a>
-          </p>
-        
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/05/04/javascript书写建议/" data-id="cjnpqyuve00011et90nt2pyrj" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/javascript/">javascript</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/性能优化/">性能优化</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-
-
-</section>
-        
-          <aside id="sidebar">
-  
-    
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Tags</h3>
-    <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/学习/">-学习</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/javascript/">javascript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/博客/">博客</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/学习资料/">学习资料</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/性能优化/">性能优化</a></li></ul>
-    </div>
+    <!--<div class="btn-share mb-10">-->
+    <!--邀请好友得免费游戏机会-->
+    <!--</div>-->
+    <!--<div class="popupBox-close">-->
+    <!--<i class="iconfont icon-guanbi"></i>-->
+    <!--</div>-->
   </div>
 
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Tag Cloud</h3>
-    <div class="widget tagcloud">
-      <a href="/tags/学习/" style="font-size: 10px;">-学习</a> <a href="/tags/javascript/" style="font-size: 20px;">javascript</a> <a href="/tags/博客/" style="font-size: 10px;">博客</a> <a href="/tags/学习资料/" style="font-size: 10px;">学习资料</a> <a href="/tags/性能优化/" style="font-size: 10px;">性能优化</a>
-    </div>
-  </div>
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Archives</h3>
-    <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">June 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a></li></ul>
-    </div>
-  </div>
+</div>
 
 
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Recent Posts</h3>
-    <div class="widget">
-      <ul>
-        
-          <li>
-            <a href="/2018/10/26/hello-world/">Hello World</a>
-          </li>
-        
-          <li>
-            <a href="/2017/06/28/koa2-mongoose-vue2搭建一个完整的个人博客/">koa2+mongoose+vue2搭建一个完整的个人博客</a>
-          </li>
-        
-          <li>
-            <a href="/2017/05/27/vue的一些要注意的事/">vue的一些要注意的事</a>
-          </li>
-        
-          <li>
-            <a href="/2017/05/16/javascript学习资源/">javascript学习资源</a>
-          </li>
-        
-          <li>
-            <a href="/2017/05/04/javascript书写建议/">javascript 书写建议</a>
-          </li>
-        
-      </ul>
-    </div>
-  </div>
+<div class="PopupBox" id="gameSuccessBox" style="display: none;">
+  <!--<div id="gameSuccessClose" class="close"><img src="https://wxopen.yiszh.com/addons/wn_ttrouges/style/img/close_btn.jpg"></div>-->
+  <!--<div id="gameSuccessBoxText">恭喜您，闯关成功</div>-->
+  <!--<div class="PopupBoxBtn" id="gameSuccessBoxBtn">点击我的口红领取</div>-->
 
-  
-</aside>
-        
+  <div class="flex-column-center">
+    <div class="game-success mb-20">
+      <div class="product">
+        <img src="./img/product.png" class="product-image">
+        <div class="product-name">
+          YSL圣罗兰纯口红 方管正红色正品
+        </div>
       </div>
-      <footer id="footer">
-  
-  <div class="outer">
-    <div id="footer-info" class="inner">
-      &copy; 2018 John Doe<br>
-      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
     </div>
-  </div>
-</footer>
-    </div>
-    <nav id="mobile-nav">
-  
-    <a href="/" class="mobile-nav-link">Home</a>
-  
-    <a href="/archives" class="mobile-nav-link">Archives</a>
-  
-</nav>
-    
-
-<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
-
-
-  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
-  <script src="/fancybox/jquery.fancybox.pack.js"></script>
-
-
-<script src="/js/script.js"></script>
-
-
 
   </div>
-</body>
-</html>
+
+  <div class="foot-btns flex-column-center">
+    <div class="btn-again-start mb-10" id="again-btn">
+      再挑战一次
+    </div>
+
+    <!--<div class="btn-share mb-10">-->
+      <!--查看我的礼品-->
+    <!--</div>-->
+  </div>
+
+</div>
+
+
+<!-- blur -->
+<div class="layoutRoot" id="app" data-game_id="undefined" data-openid="">
+  <div class="game" id="game" style="width: 596px; height: 938px;">
+    <div class="account">
+      <!--<img class="avatar" src="https://h5.lipstick.lemiao.xyz/play/trail/?h5=1&amp;unionid=orLqYwz20BqFmMvAjg97kcEykaTo">-->
+      <span></span>
+    </div>
+    <!--<div class="bulletsNumBox">-->
+      <!--<img class="bulletsNum" id="bulletsNum1" src="./img/6.png">-->
+      <!--<img class="bulletsNum" id="bulletsNum2" src="https://h5.lipstick.lemiao.xyz/play/trail/?h5=1&amp;unionid=orLqYwz20BqFmMvAjg97kcEykaTo" style="display: none;">-->
+    <!--</div>-->
+    <canvas style="position: relative;z-index: 3" id="gameStage" width="596" height="938"></canvas>
+    <div id="bm"
+         style="width: 100%; height: 100%;position: fixed;background-color: rgba(0,0,0,0);top: 5.3rem; transform: translate(-5%,-1%); z-index: 2">
+    </div>
+    <div class="tips">
+      <p id="currentLevel">当前关数: <span>1</span></p>
+      <p id="gameTip"></p>
+    </div>
+
+    <div class="header">
+
+      <div class="left">
+        <div class="back">
+          <i class="iconfont icon-fanhui"></i>
+        </div>
+
+        <div id="timebox">0</div>
+      </div>
+
+      <div class="levelbox" id="levelbox">
+        <div class="level active" id="level_1">
+          <i class="iconfont icon-bg_guanqia"></i>
+          <span class="num">1</span>
+        </div>
+        <div class="level" id="level_2">
+          <i class="iconfont icon-bg_guanqia"></i>
+          <span class="num">2</span>
+        </div>
+        <div class="level" id="level_3">
+          <i class="iconfont icon-bg_guanqia"></i>
+          <span class="num">3</span>
+        </div>
+      </div>
+
+      <div class="right">
+        <div class="my-gold flex-center">
+          <svg class="icon svg-icon" aria-hidden="true">
+            <use xlink:href="#icon-jinbi"></use>
+          </svg>
+          <span id="my-gold-num">500</span>
+          <i class="iconfont icon-jia"></i>
+        </div>
+      </div>
+    </div>
+
+    <div class="lipstick-wrap flex-center">
+      <div class="small-lipstick"></div>
+      <div class="lipstick-num" id="lipstick-num">X0</div>
+    </div>
+
+  </div>
+</div>
+<script type="text/javascript">
+  var loadedMusic = false;
+  var game_id = $("#app").attr("data-game_id");
+  // var openid=1;
+
+  // var h5Host = "https://wopen.wunengkeji.com/";
+  document.body.addEventListener('touchmove', function (e) {
+    e.preventDefault(); //阻止默认的处理方式(阻止下拉滑动的效果)
+  }, {passive: false});
+  var baseUrl = function GetRequest() {
+
+    var url = location.search;  //获取url中"?"符后的字符串
+
+    var theRequest = new Object();
+    if (url.indexOf("?") != -1) {
+      url = url.split("?")[1];
+      strs = url.split("&");
+      for (var i = 0; i < strs.length; i++) {
+        theRequest[strs[i].split("=")[0]] = (strs[i].split("=")[1]);
+      }
+    }
+    return theRequest;
+
+  }
+  var jsonParamsAlias = baseUrl();
+  // var jsonParams = {
+  //     "game_id" : jsonParamsAlias.gid,
+  //     "game_pay" : jsonParamsAlias.pay,
+  //     "product_id" : jsonParamsAlias.pid,
+  //     "randomNum" : jsonParamsAlias.rand,
+  //     "forecast_result": jsonParamsAlias.res,
+  //     "user_id" : jsonParamsAlias.uid
+  // }
+  var jsonParams = {
+    "game_id": "undefined",
+    "game_pay": "132",
+    "product_id": "465",
+    "randomNum": "4541",
+    "forecast_result": "1321",
+    "openid": jsonParamsAlias.userId
+  }
+
+  var openid = jsonParamsAlias.userId
+  var orderId = jsonParamsAlias.orderId
+  if (jsonParamsAlias.slient) {
+    $('audio').prop('muted', true);
+  }
+  if (jsonParamsAlias.h5 && jsonParamsAlias.h5 == "1") {
+    window.isH5 = true;
+  }
+  var cookieDelTime = new Date(Math.floor(new Date(new Date().getTime() + 150000)));
+  $.cookie('game_cookie', null);
+  $.cookie('game_cookie', JSON.stringify(jsonParams), {expires: cookieDelTime});
+  var anim = bodymovin.loadAnimation({
+    wrapper: document.querySelector('#bm'),
+    animType: 'svg',
+    loop: false,
+    autoplay: false,
+    prerender: true,
+    path: './json/data.json'
+  });
+
+  function play() {
+    anim.goToAndStop(0, true)
+    anim.play()
+  }
+
+  document.addEventListener('DOMContentLoaded', function () {
+    function audioAutoPlay() {
+      var audio = document.getElementById('back_music');
+      // audio.play();
+      // document.addEventListener("WeixinJSBridgeReady", function () {
+      //     audio.play();
+      // }, false);
+    }
+
+    audioAutoPlay();
+  });
+
+  document.addEventListener('visibilitychange', function (e) {
+    function audioStop() {
+      var audio = document.getElementById('back_music');
+      document.hidden ? audio.pause() : audio.play();
+      document.addEventListener("WeixinJSBridgeReady", function () {
+        document.hidden ? audio.pause() : audio.play();
+      }, false);
+    }
+
+    audioStop();
+  });
+</script>
