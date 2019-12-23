@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>animation</title>
+  <style>
+    *{
+      margin: 0;
+      padding: 0;
+    }
+    #box {
+      width: 200px;
+      height: 200px;
+      background-color: orange;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="box"></div>
+
+  <script src="./dist/index.js"></script>
+  <script>
+    let box = document.querySelector('#box')
+    let currentTime = 0
+    let duration = 5000
+
+    const animations = [
+      {
+        startTime: 0,
+        endTime: 2000,
+        form: {
+          x: 0,
+          y: 0
+        },
+        to: {
+          x: 500,
+          y: 300
+        }
+      },
+      {
+        startTime: 2000,
+        endTime: 4000,
+        form: {
+          x: 500,
+          y: 300
+        },
+        to: {
+          x: -100,
+          y: 300
+        }
+      }
+    ]
+
+    let startDateTime
+
+    function animation() {
+      currentTime += 1000 / 60
+
+      let currentAnimaition
+      for (const item of animations) {
+        if (currentTime >= item.startTime && currentTime <= item.endTime) {
+          currentAnimaition = item
+          break
+        }
+      }
+
+      if (!currentAnimaition) {
+        return
+      }
+
+      const result = ANIMATION.animation({
+        current: currentTime,
+        start: currentAnimaition.startTime,
+        end: currentAnimaition.endTime,
+        form: currentAnimaition.form,
+        to: currentAnimaition.to
+      })
+
+      box.style.transform = `translate3d(${result.x}px, ${result.y}px, 0)`
+
+      if (currentTime < duration) {
+        requestAnimationFrame(animation)
+      }
+    }
+
+    animation()
+  </script>
+</body>
+</html>
