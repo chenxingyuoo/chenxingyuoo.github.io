@@ -90,7 +90,7 @@
           y: 300
         },
         to: {
-          x: 100,
+          x: 800,
           y: 120
         }
       }
@@ -173,12 +173,13 @@
     }
 
     function onChange(target) {
-      console.dir(target)
+      // console.dir(target)
       const value = +target.value
 
       currentTime = duration / (100 / value)
       
       playByTime(currentTime)
+      playByTime2(currentTime)
     }
 
     playByTime(0)
