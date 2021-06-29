@@ -15,15 +15,29 @@
       height: 200px;
       background-color: orange;
     }
+    #box2{
+      width: 200px;
+      height: 200px;
+      background-color: blue;
+    }
   </style>
 </head>
 <body>
 
   <div id="box"></div>
+  <div id="box2"></div>
+
+  <button onclick="onPlay()">播放</button>
+
+  <button onclick="onClick()">重新播放</button>
+
+  <input id="range" type="range" min="0" max="100" value="0" onchange="onChange(this)">
 
   <script src="./dist/index.js"></script>
   <script>
     let box = document.querySelector('#box')
+    let box2 = document.querySelector('#box2')
+    let range = document.querySelector('#range')
     let currentTime = 0
     let duration = 5000
 
@@ -40,25 +54,51 @@
           y: 300
         }
       },
+
       {
         startTime: 2000,
-        endTime: 4000,
+        endTime: 5000,
         form: {
           x: 500,
           y: 300
         },
         to: {
-          x: -100,
+          x: 1000,
+          y: 20
+        }
+      }
+    ]
+
+    const animations2 = [
+      {
+        startTime: 0,
+        endTime: 3000,
+        form: {
+          x: 200,
+          y: 200
+        },
+        to: {
+          x: 500,
           y: 300
+        }
+      },
+      {
+        startTime: 3000,
+        endTime: 5000,
+        form: {
+          x: 500,
+          y: 300
+        },
+        to: {
+          x: 100,
+          y: 120
         }
       }
     ]
 
     let startDateTime
 
-    function animation() {
-      currentTime += 1000 / 60
-
+    function playByTime(currentTime) {
       let currentAnimaition
       for (const item of animations) {
         if (currentTime >= item.startTime && currentTime <= item.endTime) {
@@ -76,17 +116,73 @@
         start: currentAnimaition.startTime,
         end: currentAnimaition.endTime,
         form: currentAnimaition.form,
-        to: currentAnimaition.to
+        to: currentAnimaition.to,
+        easeFn: ANIMATION.Easing.easeInCubic
       })
 
       box.style.transform = `translate3d(${result.x}px, ${result.y}px, 0)`
+
+      range.value = currentTime / duration * 100
+    }
+
+    function playByTime2(currentTime) {
+      let currentAnimaition
+      for (const item of animations2) {
+        if (currentTime >= item.startTime && currentTime <= item.endTime) {
+          currentAnimaition = item
+          break
+        }
+      }
+
+      if (!currentAnimaition) {
+        return
+      }
+
+      const result = ANIMATION.animation({
+        current: currentTime,
+        start: currentAnimaition.startTime,
+        end: currentAnimaition.endTime,
+        form: currentAnimaition.form,
+        to: currentAnimaition.to,
+        easeFn: ANIMATION.Easing.easeInElastic
+      })
+
+      box2.style.transform = `translate3d(${result.x}px, ${result.y}px, 0)`
+
+      range.value = currentTime / duration * 100
+    }
+
+    function animation() {
+      currentTime += 1000 / 60
+
+      playByTime(currentTime)
+      playByTime2(currentTime)
 
       if (currentTime < duration) {
         requestAnimationFrame(animation)
       }
     }
 
-    animation()
+    function onClick() {
+      currentTime = 0
+      animation()
+    }
+
+    function onPlay() {
+      animation()
+    }
+
+    function onChange(target) {
+      console.dir(target)
+      const value = +target.value
+
+      currentTime = duration / (100 / value)
+      
+      playByTime(currentTime)
+    }
+
+    playByTime(0)
+    playByTime2(0)
   </script>
 </body>
 </html>
